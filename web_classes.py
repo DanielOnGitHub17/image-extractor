@@ -99,7 +99,7 @@ class ImageGetter:
                 local_img.write(online_img.read())
         os.chdir(current)
 
-class CssParser:
+class CSSParser:
     def start(self, website, src, folder):
         pass
     # i might not use any module. just find 'background' and 'background-image' in text
