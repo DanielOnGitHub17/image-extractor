@@ -5,7 +5,7 @@ from tkinter.ttk import *
 import os
 
 #classes
-from web_methods import get_html, ImageFromHTML, ImageGetter
+from web_classes import get_html, ImageFromHTML, ImageGetter
 from actions import Actions
 from container import Container
 
