@@ -10,3 +10,6 @@ def str_attr(attrs):
     replace colons by equals
     """
     return ' '.join(f"{name}=\"{value}\"" for name, value in attrs)
+
+def find_right_name(name, folder):
+    pass
