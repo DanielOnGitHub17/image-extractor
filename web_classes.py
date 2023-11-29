@@ -101,4 +101,7 @@ class ImageGetter:
 
 class CssParser:
     def start(self, website, src, folder):
-        
+        pass
+    # i might not use any module. just find 'background' and 'background-image' in text
+    # get where ';' is after the attribute.
+    # extract text
