@@ -35,3 +35,11 @@ def find_right_name(name, folder):
         name = f"{name_hold}_{same_name_count}"
         same_name_count += 1
     return name
+
+def get_web_text(url, file=0):
+    if file:
+        with open(url, errors="ignore") as html_file:
+            return html_file.read().lower()
+    else:
+        with req.urlopen(url) as html_file:
+            return html_file.read().decode(errors="ignore").lower()
