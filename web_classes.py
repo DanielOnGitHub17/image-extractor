@@ -69,17 +69,7 @@ class ImageFromHTML(HTMLParser):
         
 class ImageGetter:
     def start(self, website, src, folder):
-        #use urllib.parse to query url given
-        full_src = parse.urlparse(src)
-        website = parse.urlparse(website)
-        if not full_src.netloc:
-            src_path = full_src.path
-            #turn 'daniel.jpg' to 'danielongithub17.github.io/daniel.jpg'
-            src = f"{website.netloc}{'' if src_path.startswith('/') else '/'}{src_path}"
-        if not full_src.scheme:
-            src = f"{website.scheme}://{src}"
-        
-        self.src = src
+        self.src = split_url(website, src)
         self.folder = folder
         file_name = Path(parse.urlparse(src).path).name
         self.name = find_right_name(file_name, folder)
