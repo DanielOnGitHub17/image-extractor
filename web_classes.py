@@ -74,6 +74,13 @@ class ImageGetter:
                 local_img.write(online_img.read())
         os.chdir(current)
 
+class SVGMaker:
+    def start(self, svg_text, name="svg.svg"):
+        self.svg_text = svg_text
+        with open(name, 'w') as svg_file:
+            svg_file.write(svg_text)
+
+
 class CSSParser:
     #returns the background images srcs
     def start(self, website, src):
