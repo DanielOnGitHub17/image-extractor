@@ -85,7 +85,9 @@ class CSSParser:
     #returns the background images srcs
     def start(self, website, src):
         self.src = split_url(website, src)
-        self.css_text = get_web_text
+        self.css_text = get_web_text(self.src)
+        #now for parsing
+        #implement later.
     # i might not use any module. just find 'background' and 'background-image' in text
     # get where ';' is after the attribute.
     # extract text
