@@ -12,4 +12,11 @@ def str_attr(attrs):
     return ' '.join(f"{name}=\"{value}\"" for name, value in attrs)
 
 def find_right_name(name, folder):
-    pass
+    name_hold = name
+    same_name_count = 1
+    folder = os.listdir(folder)
+    #if name already exists, add a digit (like version) to the end of name
+    while name in folder:
+        name = f"{name_hold}_{same_name_count}"
+        same_name_count += 1
+    self.name = name
