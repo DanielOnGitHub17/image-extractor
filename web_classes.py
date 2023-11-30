@@ -5,15 +5,6 @@ from pathlib import Path
 import os
 
 from helpers import *
-
-def get_html(url, file=0):
-    if file:
-        with open(url, errors="ignore") as html_file:
-            return html_file.read().lower()
-    else:
-        with req.urlopen(url) as html_file:
-            return html_file.read().decode(errors="ignore").lower()
-
     
 class ImageFromHTML(HTMLParser):
     def __init__(self, url=''):
@@ -84,8 +75,10 @@ class ImageGetter:
         os.chdir(current)
 
 class CSSParser:
-    def start(self, website, src, folder):
-        pass
+    #returns the background images srcs
+    def start(self, website, src):
+        self.src = split_url(website, src)
+        self.css_text = get_web_text
     # i might not use any module. just find 'background' and 'background-image' in text
     # get where ';' is after the attribute.
     # extract text
