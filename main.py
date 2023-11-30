@@ -18,7 +18,7 @@ class ImageExtractor:
         self.actions = Actions(self)
         self.container = Container(self)
         self.style()
-        self.get_html = get_html
+        self.get_web_text = get_web_text
         self.get_img_srcs = ImageFromHTML().feed
         self.build_image = ImageGetter().start
         self.app.mainloop()

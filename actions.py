@@ -40,7 +40,7 @@ class Actions:
               
             self.url = self.value.get()
             try:
-                html = self.app.get_html(self.url)
+                html = self.app.get_web_text(self.url)
                 self.srcs = self.app.get_img_srcs(html)
             except Exception as error:
                 # for i in dir(error):
