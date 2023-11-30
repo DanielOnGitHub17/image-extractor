@@ -16,8 +16,9 @@ def get_html(url, file=0):
 
     
 class ImageFromHTML(HTMLParser):
-    def __init__(self):
+    def __init__(self, url=''):
         super().__init__()
+        self.url = url
         self.img_srcs = set()
         self.css_srcs = set()
         self.css_texts = set()
@@ -82,7 +83,7 @@ class ImageGetter:
         self.folder = folder
         file_name = Path(parse.urlparse(src).path).name
         self.name = find_right_name(file_name, folder)
-        self.get_img_data()
+        #self.get_img_data()
         
     def get_img_data(self):
         current = os.getcwd()
