@@ -20,4 +20,4 @@ def find_right_name(name, folder):
     while name in folder:
         name = f"{name_hold}_{same_name_count}"
         same_name_count += 1
-    self.name = name
+    return name
