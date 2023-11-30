@@ -1,3 +1,4 @@
+import os
 def check_some(book, *texts):
     """This function returns true if """
     return bool(sum(value in book for value in texts))
