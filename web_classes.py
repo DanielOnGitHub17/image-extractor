@@ -80,15 +80,8 @@ class ImageGetter:
         
         self.src = src
         self.folder = folder
-        _name = Path(parse.urlparse(src).path).name
-        name_ = _name
-        same_name_count = 1
-        images = os.listdir(folder)
-        #if name already exists, add a digit (like version) to the end of name
-        while _name in images:
-            _name = f"{same_name_count}{name_}"
-            same_name_count += 1
-        self.name = _name
+        file_name = Path(parse.urlparse(src).path).name
+        self.name = find_right_name(file_name, folder)
         self.get_img_data()
         
     def get_img_data(self):
