@@ -15,7 +15,7 @@ background-image: url("tellme.jpg")
     color: blue;
 background: left right center 10% blue url("assets/tellme.jpg");
 """
-    # used +1 to indicate if sth is not -1j 
+    # used +1 to indicate if sth is not -1
     urls = set()
     found_url = sample_style.find("url")
     while found_url+1:
