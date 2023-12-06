@@ -1,0 +1,1 @@
+use while loop. while found_bg != -1. while found_bg + 1:
