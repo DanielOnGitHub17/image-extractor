@@ -5,7 +5,18 @@ from pathlib import Path
 import os
 
 from helpers import *
-    
+
+image_formats = ('.jpg', '.jpeg', '.png', '.gif', '.bmp'
+, '.webp', '.svg', '.tiff', '.eps', '.pdf', '.exif'
+, '.pbm', '.pgm', '.ppm', '.pam', '.pfm', '.hdr', '.fits'
+, '.ico', '.heif', '.bat', '.bpg', '.cgm', '.drw', '.dxf'
+, '.emf', '.gerber', '.itc', '.sgl', '.odg', '.eps', '.raw'
+, '.indd', '.ai', '.eps', '.pdf', '.xps', '.oxps', '.pct', '.pict'
+, '.plt', '.wmf', '.svg', '.svgz', '.cgm', '.xar', '.sxd', '.v2d'
+, '.vnd', '.wmz', '.emz', '.ani', '.cal', '.cin', '.fax', '.jbig'
+, '.jng', '.mng', '.pcx', '.pict', '.pnm', '.ppm', '.qti', '.qtif'
+, '.ras', '.tga', '.wbmp', '.xpm', '.xwd')
+
 class ImageFromHTML(HTMLParser):
     def __init__(self, url=''):
         super().__init__()
@@ -95,13 +106,9 @@ class CSSParser:
             found_closing_brackets = sample_style.find(')', found_url)
             if found_closing_brackets + 1:
             #scrape the url out and get the src inside the bracket
-            url = sample_style[found_url:found_closing_brackets]\
+                url = sample_style[found_url:found_closing_brackets]\
                 .strip("\'\"url( ")
-            urls.add(url)
+                #check if it is an image
+                if ".css" not in url:
+                    urls.add(url)
         return urls
-
-        #now for parsing
-        #implement later.
-    # i might not use any module. just find 'background' and 'background-image' in text
-    # get where ';' is after the attribute.
-    # extract text
