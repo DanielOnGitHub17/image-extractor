@@ -1,1 +1,3 @@
 use while loop. while found_bg != -1. while found_bg + 1:
+
+try splitting to list. and also working only with string. see which is O(n)er
