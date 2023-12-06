@@ -86,6 +86,20 @@ class CSSParser:
     def start(self, website, src):
         self.src = split_url(website, src)
         self.css_text = get_web_text(self.src)
+        self.srcs = self.parse_css(css_text)
+
+    def parse_css(self, css_text):
+        urls = set()
+        found_url = sample_style.find("url")
+        while found_url+1:
+            found_closing_brackets = sample_style.find(')', found_url)
+            if found_closing_brackets + 1:
+            #scrape the url out and get the src inside the bracket
+            url = sample_style[found_url:found_closing_brackets]\
+                .strip("\'\"url( ")
+            urls.add(url)
+        return urls
+
         #now for parsing
         #implement later.
     # i might not use any module. just find 'background' and 'background-image' in text
