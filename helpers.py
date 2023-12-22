@@ -3,7 +3,7 @@ import urllib.parse as parse
 
 def check_some(book, *texts):
     """This function returns true if """
-    return bool(sum(value in book for value in texts))
+    return any(value in book for value in texts)
     
 
 def str_attr(attrs):
