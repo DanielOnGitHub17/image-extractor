@@ -7,7 +7,6 @@ import os
 #classes
 from web_classes import get_html, ImageFromHTML, ImageGetter
 from actions import Actions
-from container import Container
 
 class ImageExtractor:
     def __init__(self):
