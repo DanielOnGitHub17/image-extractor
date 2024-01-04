@@ -18,7 +18,6 @@ class ImageExtractor:
         self.app.resizable(0, 0)
         self.build_appframe()
         self.actions = Actions(self)
-        self.container = Container(self)
         self.style()
         self.get_web_text = get_web_text
         self.get_img_srcs = ImageFromHTML().feed
