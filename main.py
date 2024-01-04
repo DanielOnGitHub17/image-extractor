@@ -1,12 +1,15 @@
-#Nov 1, 2023 3.50pm
-#helpers
+# Nov 1, 2023 3.50pm
+# helpers
 from tkinter import *
 from tkinter.ttk import *
 import os
 
-#classes
-from web_classes import get_html, ImageFromHTML, ImageGetter
+# classes
 from actions import Actions
+from web_classes import ImageFromHTML, ImageGetter
+
+# functions
+from helpers import get_web_text
 
 class ImageExtractor:
     def __init__(self):
