@@ -43,6 +43,7 @@ class Actions:
                 html = self.app.get_web_text(self.url)
                 self.srcs = self.app.get_img_srcs(html)
             except Exception as error:
+                raise error
                 # for i in dir(error):
                 #     print(i)
                     #print(getattr(error, i))
@@ -65,7 +66,8 @@ class Actions:
             for src in self.srcs:
                 try:
                     self.app.build_image(self.url, src, folder)
-                except:
+                except Exception as e:
+                    raise e
                     self.status.set(f"couldn't download {src}")
             reset(1)
             os.startfile(folder)
