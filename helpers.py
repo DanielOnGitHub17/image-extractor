@@ -1,5 +1,6 @@
 import os
-import urllib.parse as parse
+import urllib.parse as ps
+import urllib.request as rq
 
 def check_some(book, *texts):
     """This function returns true if """
@@ -16,8 +17,8 @@ def str_attr(attrs):
 
 def split_url(website, src):
     #use urllib.parse to query url given
-    full_src = parse.urlparse(src)
-    website = parse.urlparse(website)
+    full_src = ps.urlparse(src)
+    website = ps.urlparse(website)
     if not full_src.netloc:
         src_path = full_src.path
         #turn 'daniel.jpg' to 'danielongithub17.github.io/daniel.jpg'
@@ -41,5 +42,5 @@ def get_web_text(url, file=0):
         with open(url, errors="ignore") as html_file:
             return html_file.read().lower()
     else:
-        with req.urlopen(url) as html_file:
+        with rq.urlopen(url) as html_file:
             return html_file.read().decode(errors="ignore").lower()
