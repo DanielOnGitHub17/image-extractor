@@ -6,6 +6,11 @@ import os
 
 from helpers import *
 
+# perhaps later, class methods will not just return a value.
+# maybe they should set all gotten values to class properties
+# then the main.py will be implemented to reflect this,
+# or maybe just for some of the classes
+
 image_formats = ('.jpg', '.jpeg', '.png', '.gif', '.bmp'
 , '.webp', '.svg', '.tiff', '.eps', '.pdf', '.exif'
 , '.pbm', '.pgm', '.ppm', '.pam', '.pfm', '.hdr', '.fits'
@@ -18,6 +23,9 @@ image_formats = ('.jpg', '.jpeg', '.png', '.gif', '.bmp'
 , '.ras', '.tga', '.wbmp', '.xpm', '.xwd')
 
 class ImageFromHTML(HTMLParser):
+    # the main class. Uses most others to produce result 
+    # that will be returned once to the caller of self.feed
+     
     def __init__(self, url=''):
         super().__init__()
         self.url = url
@@ -29,7 +37,21 @@ class ImageFromHTML(HTMLParser):
         self.css_found = 0
 
     def feed(self, data):
+        # parse the html for all types of srcs
         super().feed(data)
+        # get images from gotten css_srcs
+        # update img_srcs as you get them...
+        get_img_from_css = CSSParser()
+        for css_src in self.css_srcs:
+            self.img_srcs.update(
+                get_img_from_css.start(self.url, css_src)
+            )
+        # get the image srcs from the css_texts
+        for css_text in self.css_texts:
+            self.img_srcs.update(
+                get_img_from_css.parse_css(self.url, css_text)
+            )
+        # now for the svg_texts
         return self.img_srcs
     
     def handle_starttag(self, tag, attrs):
@@ -95,23 +117,25 @@ class SVGMaker:
 class CSSParser:
     #returns the background images srcs
     def start(self, website, src):
-        self.website = website
+        self.website = split_url(website)
         self.src = split_url(website, src)
         self.css_text = get_web_text(self.src)
-        self.srcs = self.parse_css(css_text)
+        return self.parse_css(self.website, self.css_text)
 
-    def parse_css(self, css_text):
+    def parse_css(self, website, css_text):
         urls = set()
-        found_url = sample_style.find("url")
+        found_url = css_text.find("url")
         while found_url+1:
-            found_closing_brackets = sample_style.find(')', found_url)
+            found_closing_brackets = css_text.find(')', found_url)
             if found_closing_brackets + 1:
             # scrape the url out and get the src inside the bracket
-                url = sample_style[found_url:found_closing_brackets]\
+                url = css_text[found_url:found_closing_brackets]\
                 .strip("\'\"url( ")
                 # check if it is an image
                 if Path(url).suffix and Path(url).suffix in  image_formats:
                     # add the website root to the url
-                    url = split_url(self.website, url)
+                    url = split_url(website, url)
                     urls.add(url)
+            # now find the next one
+            found_url = css_text.find("url", found_closing_brackets)
         return urls
