@@ -21,7 +21,7 @@ class ImageExtractor:
         self.style()
         self.get_web_text = get_web_text
         self.get_img_srcs = ImageFromHTML().feed
-        self.get_svgs = SVGMaker().start
+        self.build_svg = SVGMaker().start
         self.build_image = ImageGetter().start
         self.app.mainloop()
         
