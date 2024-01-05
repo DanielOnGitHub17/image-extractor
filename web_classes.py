@@ -100,7 +100,6 @@ class ImageGetter:
         self.get_img_data()
         
     def get_img_data(self):
-        os.chdir(self.folder)
         with req.urlopen(self.src) as online_img:
             with open(f"{self.name}", 'wb') as local_img:
                 local_img.write(online_img.read())
@@ -113,6 +112,7 @@ class SVGMaker:
         self.name_no += 1
         self.name = find_right_name(f"svg{self.name_no}.svg", folder)
         self.svg_text = svg_text
+        print(svg_text)
         with open(self.name, 'w') as svg_file:
             svg_file.write(svg_text)
 

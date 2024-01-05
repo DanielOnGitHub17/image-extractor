@@ -62,6 +62,7 @@ class Actions:
                 return reset(1)
             
             current = os.getcwd()
+            os.chdir(folder)
             try:
                 # download images
                 for src in self.srcs[0]:
