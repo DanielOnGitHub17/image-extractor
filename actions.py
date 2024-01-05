@@ -70,7 +70,7 @@ class Actions:
                     self.app.build_image(self.url, src, folder)
                 # download svgs
                 for svg_text in self.srcs[1]:
-                    self.app.build_svg(svg_ctext, folder)
+                    self.app.build_svg(svg_text, folder)
             except Exception as e:
                 raise e # for now
                 self.status.set(f"couldn't download {src}")

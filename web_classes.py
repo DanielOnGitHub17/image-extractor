@@ -51,7 +51,7 @@ class ImageFromHTML(HTMLParser):
             self.img_srcs.update(
                 get_img_from_css.parse_css(url, css_text)
             )
-        return self.img_srcs
+        return (self.img_srcs, self.svg_texts)
     
     def handle_starttag(self, tag, attrs):
         match tag:
@@ -117,7 +117,7 @@ class SVGMaker:
 class CSSParser:
     #returns the background images srcs
     def start(self, website, src):
-        self.website = split_url(website)
+        self.website = website
         self.src = split_url(website, src)
         self.css_text = get_web_text(self.src)
         return self.parse_css(self.website, self.css_text)
