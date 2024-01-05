@@ -75,7 +75,7 @@ class ImageGetter:
         self.folder = folder
         file_name = Path(parse.urlparse(src).path).name
         self.name = find_right_name(file_name, folder)
-        #self.get_img_data()
+        self.get_img_data()
         
     def get_img_data(self):
         current = os.getcwd()
