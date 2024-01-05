@@ -63,20 +63,23 @@ class Actions:
             
             current = os.getcwd()
             os.chdir(folder)
-            try:
-                # download images
-                for src in self.srcs[0]:
+            # download images
+            for src in self.srcs[0]:
+                try:
                     self.app.build_image(self.url, src, folder)
-                # download svgs
-                for svg_text in self.srcs[1]:
+                except Exception as error:
+                    print(error)
+                    self.status.set(f"couldn't download {src}")
+            # download svgs
+            for svg_text in self.srcs[1]:
+                try:
                     self.app.build_svg(svg_text, folder)
-            except Exception as error:
-                print(error)
-                self.status.set(f"couldn't download {src}")
-            finally:
-                reset(1)
-                os.startfile(folder)
-                os.chdir(current)
+                except Exception as error:
+                    print(error)
+                    self.status.set(f"couldn't download {src}")
+            reset(1)
+            os.startfile(folder)
+            os.chdir(current)
 
         def reset(*event):
             self.srcs[0].clear()
