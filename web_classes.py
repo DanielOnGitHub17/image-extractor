@@ -38,6 +38,7 @@ class ImageFromHTML(HTMLParser):
 
     def feed(self, data, url):
         # parse the html for all types of srcs
+        # change later to be only url (it will get the data itself)
         super().feed(data)
         # get images from gotten css_srcs
         # update img_srcs as you get them...
