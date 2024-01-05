@@ -6,7 +6,7 @@ import os
 
 # classes
 from actions import Actions
-from web_classes import ImageFromHTML, ImageGetter
+from web_classes import ImageFromHTML, ImageGetter, SVGMaker
 
 # functions
 from helpers import get_web_text
@@ -21,6 +21,7 @@ class ImageExtractor:
         self.style()
         self.get_web_text = get_web_text
         self.get_img_srcs = ImageFromHTML().feed
+        self.get_svgs = SVGMaker().start
         self.build_image = ImageGetter().start
         self.app.mainloop()
         
