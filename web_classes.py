@@ -106,8 +106,12 @@ class ImageGetter:
                 local_img.write(online_img.read())
 
 class SVGMaker:
+    def __init__(self):
+        self.name_no = 0
+    
     def start(self, svg_text, folder):
-        self.name = find_right_name("svg.svg", folder)
+        self.name_no += 1
+        self.name = find_right_name(f"svg{self.name_no}.svg", folder)
         self.svg_text = svg_text
         with open(self.name, 'w') as svg_file:
             svg_file.write(svg_text)
