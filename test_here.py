@@ -3,7 +3,7 @@ import os
 
 from importlib import reload
 #listed in reversed chronological order
-cls = lambda: exec("os.system('clear')")
+cls = lambda *nothing_really: exec("os.system('clear')")
 def parse_css():
     # remember to add 'data' url support
     sample_style = r"""border-radius: fine;
