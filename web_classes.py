@@ -100,12 +100,10 @@ class ImageGetter:
         self.get_img_data()
         
     def get_img_data(self):
-        current = os.getcwd()
         os.chdir(self.folder)
         with req.urlopen(self.src) as online_img:
             with open(f"{self.name}", 'wb') as local_img:
                 local_img.write(online_img.read())
-        os.chdir(current)
 
 class SVGMaker:
     def start(self, svg_text, folder):

@@ -43,10 +43,7 @@ class Actions:
                 html = self.app.get_web_text(self.url)
                 self.srcs = self.app.get_img_srcs(html, self.url)
             except Exception as error:
-                raise error
-                # for i in dir(error):
-                #     print(i)
-                    #print(getattr(error, i))
+                print(error)
                 error = error.msg if hasattr(error, "msg") else "An error occured"
                 self.status.set(error+". click reset button to reset")
                 self.reseter.state(["!disabled"])
@@ -64,6 +61,7 @@ class Actions:
             if not folder:
                 return reset(1)
             
+            current = os.getcwd()
             try:
                 # download images
                 for src in self.srcs[0]:
@@ -71,12 +69,13 @@ class Actions:
                 # download svgs
                 for svg_text in self.srcs[1]:
                     self.app.build_svg(svg_text, folder)
-            except Exception as e:
-                raise e # for now
+            except Exception as error:
+                print(error)
                 self.status.set(f"couldn't download {src}")
             finally:
                 reset(1)
                 os.startfile(folder)
+                os.chdir(current)
 
         def reset(*event):
             self.srcs[0].clear()
