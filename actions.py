@@ -41,7 +41,7 @@ class Actions:
             self.url = self.value.get()
             try:
                 html = self.app.get_web_text(self.url)
-                self.srcs = self.app.get_img_srcs(html)
+                self.srcs = self.app.get_img_srcs(html, self.url)
             except Exception as error:
                 raise error
                 # for i in dir(error):
@@ -63,14 +63,20 @@ class Actions:
             folder = askdirectory()
             if not folder:
                 return reset(1)
-            for src in self.srcs:
-                try:
+            
+            try:
+                # download images
+                for src in self.srcs[0]:
                     self.app.build_image(self.url, src, folder)
-                except Exception as e:
-                    raise e
-                    self.status.set(f"couldn't download {src}")
-            reset(1)
-            os.startfile(folder)
+                # download svgs
+                for svg_text in self.srcs[1]:
+                    self.app.build_svg(svg_ctext, folder)
+            except Exception as e:
+                raise e # for now
+                self.status.set(f"couldn't download {src}")
+            finally:
+                reset(1)
+                os.startfile(folder)
 
         def reset(*event):
             self.srcs.clear()
