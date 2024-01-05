@@ -95,6 +95,7 @@ class SVGMaker:
 class CSSParser:
     #returns the background images srcs
     def start(self, website, src):
+        self.website = website
         self.src = split_url(website, src)
         self.css_text = get_web_text(self.src)
         self.srcs = self.parse_css(css_text)
@@ -105,10 +106,12 @@ class CSSParser:
         while found_url+1:
             found_closing_brackets = sample_style.find(')', found_url)
             if found_closing_brackets + 1:
-            #scrape the url out and get the src inside the bracket
+            # scrape the url out and get the src inside the bracket
                 url = sample_style[found_url:found_closing_brackets]\
                 .strip("\'\"url( ")
-                #check if it is an image
-                if ".css" not in url:
+                # check if it is an image
+                if Path(url).suffix and Path(url).suffix in  image_formats:
+                    # add the website root to the url
+                    url = split_url(self.website, url)
                     urls.add(url)
         return urls
