@@ -112,7 +112,6 @@ class SVGMaker:
         self.name_no += 1
         self.name = find_right_name(f"svg{self.name_no}.svg", folder)
         self.svg_text = svg_text
-        print(svg_text)
         with open(self.name, 'w') as svg_file:
             svg_file.write(svg_text)
 
