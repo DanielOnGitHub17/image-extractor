@@ -1,6 +1,7 @@
 import os
 import urllib.parse as ps
 import urllib.request as rq
+from pathlib import Path
 
 def check_some(base, *possibles):
     """This function returns true if any member of possibles is present in base"""
@@ -28,7 +29,7 @@ def split_url(website, src):
     return src
 
 def find_right_name(name, folder):
-    name_hold = name
+    name_hold = Path(name).suffix
     same_name_count = 1
     folder = os.listdir(folder)
     #if name already exists, add a digit (like version) to the end of name
