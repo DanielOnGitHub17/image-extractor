@@ -2,9 +2,9 @@ import os
 import urllib.parse as ps
 import urllib.request as rq
 
-def check_some(book, *texts):
-    """This function returns true if """
-    return any(value in book for value in texts)
+def check_some(base, *possibles):
+    """This function returns true if any member of possibles is present in base"""
+    return any(value in base for value in possibles)
     
 
 def str_attr(attrs):
