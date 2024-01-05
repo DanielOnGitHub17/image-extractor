@@ -29,12 +29,13 @@ def split_url(website, src):
     return src
 
 def find_right_name(name, folder):
-    name_hold = Path(name).suffix
+    name_hold = Path(name).stem
+    extension = Path(name).suffix
     same_name_count = 1
     folder = os.listdir(folder)
     #if name already exists, add a digit (like version) to the end of name
     while name in folder:
-        name = f"{name_hold}_{same_name_count}"
+        name = f"{name_hold}_{same_name_count}{extension}"
         same_name_count += 1
     return name
 
