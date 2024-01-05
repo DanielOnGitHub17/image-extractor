@@ -79,7 +79,8 @@ class Actions:
                 os.startfile(folder)
 
         def reset(*event):
-            self.srcs.clear()
+            self.srcs[0].clear()
+            self.srcs[1].clear()
             self.value.set("https://")
             self.status.set("Input a url and click Get Images")
             self.downloader.state(["disabled"])
