@@ -36,7 +36,7 @@ class ImageFromHTML(HTMLParser):
         self.svg_found = 0
         self.css_found = 0
 
-    def feed(self, data):
+    def feed(self, data, url):
         # parse the html for all types of srcs
         super().feed(data)
         # get images from gotten css_srcs
@@ -44,14 +44,13 @@ class ImageFromHTML(HTMLParser):
         get_img_from_css = CSSParser()
         for css_src in self.css_srcs:
             self.img_srcs.update(
-                get_img_from_css.start(self.url, css_src)
+                get_img_from_css.start(url, css_src)
             )
         # get the image srcs from the css_texts
         for css_text in self.css_texts:
             self.img_srcs.update(
-                get_img_from_css.parse_css(self.url, css_text)
+                get_img_from_css.parse_css(url, css_text)
             )
-        # now for the svg_texts
         return self.img_srcs
     
     def handle_starttag(self, tag, attrs):
@@ -108,9 +107,10 @@ class ImageGetter:
         os.chdir(current)
 
 class SVGMaker:
-    def start(self, svg_text, name="svg.svg"):
+    def start(self, svg_text, folder):
+        self.name = find_right_name("svg.svg", folder)
         self.svg_text = svg_text
-        with open(name, 'w') as svg_file:
+        with open(self.name, 'w') as svg_file:
             svg_file.write(svg_text)
 
 
