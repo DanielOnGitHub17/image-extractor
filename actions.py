@@ -47,7 +47,7 @@ class Actions:
                 error = error.msg if hasattr(error, "msg") else "An error occured"
                 self.status.set(error+". click reset button to reset")
                 self.reseter.state(["!disabled"])
-                self.srcs = set()
+                self.srcs = (set(), set())
                 return
             self.reseter.state(["!disabled"])
             self.downloader.state(["!disabled"])
@@ -68,7 +68,7 @@ class Actions:
                 try:
                     self.app.build_image(self.url, src, folder)
                 except Exception as error:
-                    print(error)
+                    print(error, src, sep='\n')
                     self.status.set(f"couldn't download {src}")
             # download svgs
             for svg_text in self.srcs[1]:

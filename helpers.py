@@ -2,7 +2,7 @@ import os
 import urllib.parse as ps
 import urllib.request as rq
 from pathlib import Path
-
+# Use cookies to prevent forbidden requests in future
 def check_some(base, *possibles):
     """This function returns true if any member of possibles is present in base"""
     return any(value in base for value in possibles)
