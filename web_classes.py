@@ -1,4 +1,4 @@
-import urllib.request as req
+import urllib.request as rq
 import urllib.parse as parse
 from html.parser import HTMLParser
 from pathlib import Path
@@ -100,7 +100,7 @@ class ImageGetter:
         self.get_img_data()
         
     def get_img_data(self):
-        with req.urlopen(self.src) as online_img:
+        with rq.urlopen(self.src) as online_img:
             with open(f"{self.name}", 'wb') as local_img:
                 local_img.write(online_img.read())
 
