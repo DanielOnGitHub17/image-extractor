@@ -75,6 +75,8 @@ class ImageFromHTML(HTMLParser):
                             self.css_srcs.add(attributes["href"])
                             #do the css parsing for backgrounds later
             case "svg":
+                # svg found. Start filling in the svg
+                # resetting the past one in the process
                 self.svg_found = 1
                 self.svg_text = f"<svg {str_attr(attrs)}>"
                         
@@ -99,7 +101,6 @@ class ImageFromHTML(HTMLParser):
             else:
                 self.svg_texts += "</svg>"
                 self.svg_texts.append(self.svg_text)
-                self.svg_text = ''
                 self.svg_found = 0
 
             
