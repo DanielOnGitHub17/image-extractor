@@ -83,7 +83,6 @@ class ImageFromHTML(HTMLParser):
                     }>"
                         
             case "style":
-                attributes = dict(attrs)
                 self.css_found = 1
 
         if self.svg_found and tag != "svg":
