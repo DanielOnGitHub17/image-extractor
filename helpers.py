@@ -10,11 +10,12 @@ def check_some(base, *possibles):
 
 def str_attr(attrs):
     """Works for html elements with both start and end tags
-    Turns the dict to string
-    replace commas by nothing
+    Turns the dict to string replace commas by nothing
     replace colons by equals
     """
-    return ' '.join(f"{name}=\"{value}\"" for name, value in attrs)
+    return ' ' + ' '.join(
+        f"{name}=\"{value}\"" for name, value in attrs
+        ) if attrs else ''
 
 def split_url(website, src):
     #use urllib.parse to query url given
