@@ -81,14 +81,27 @@ class ImageFromHTML(HTMLParser):
             case "style":
                 attributes = dict(attrs)
                 self.css_found = 1
+
+        if self.svg_found:
+            self.svg_text += f"<{tag}{' ' + str_attr(attrs) if attrs else ''}>"
                     
     def handle_data(self, data):
         if self.svg_found:
-            self.svg_texts.add(self.svg_text+data+"</svg>")
-            self.svg_found = 0
+            self.svg_text += data
         if self.css_found:
             self.css_texts.add(data)
             self.css_found = 0
+            
+    def handle_endtag(self, tag):
+        if self.svg_found:
+            if tag != "svg":
+                self.svg_text += f"</{tag}>"
+            else:
+                self.svg_texts += "</svg>"
+                self.svg_texts.append(self.svg_text)
+                self.svg_text = ''
+                self.svg_found = 0
+
             
         
 class ImageGetter:
