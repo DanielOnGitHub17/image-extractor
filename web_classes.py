@@ -78,14 +78,15 @@ class ImageFromHTML(HTMLParser):
                 # svg found. Start filling in the svg
                 # resetting the past one in the process
                 self.svg_found = 1
-                self.svg_text = f"<svg {str_attr(attrs)}>"
+                self.svg_text = f"<svg{str_attr(attrs)}>"
                         
             case "style":
                 attributes = dict(attrs)
                 self.css_found = 1
 
         if self.svg_found:
-            self.svg_text += f"<{tag}{' ' + str_attr(attrs) if attrs else ''}>"
+            # any other children of the svg, of course.
+            self.svg_text += f"<{tag}{str_attr(attrs)}>"
                     
     def handle_data(self, data):
         if self.svg_found:
