@@ -44,6 +44,7 @@ class Actions:
                 self.srcs = self.app.get_img_srcs(html, self.url)
             except Exception as error:
                 print(error)
+                raise error
                 error = error.msg if hasattr(error, "msg") else "An error occured"
                 self.status.set(error+". click reset button to reset")
                 self.reseter.state(["!disabled"])
