@@ -79,7 +79,7 @@ class ImageFromHTML(HTMLParser):
                 # resetting the past one in the process
                 self.svg_found = 1
                 self.svg_text = f"<svg{
-                    str_attr(("xmlns", "http://www.w3.org/2000/svg") + attrs)
+                    str_attr(["xmlns", "http://www.w3.org/2000/svg"] + attrs)
                     }>"
                         
             case "style":
