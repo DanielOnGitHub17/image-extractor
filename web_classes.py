@@ -84,7 +84,7 @@ class ImageFromHTML(HTMLParser):
                 attributes = dict(attrs)
                 self.css_found = 1
 
-        if self.svg_found:
+        if self.svg_found and tag != "svg":
             # any other children of the svg, of course.
             self.svg_text += f"<{tag}{str_attr(attrs)}>"
                     
@@ -98,10 +98,10 @@ class ImageFromHTML(HTMLParser):
     def handle_endtag(self, tag):
         if self.svg_found:
             if tag != "svg":
-                self.svg_text += f"</{tag}>"
+                self.svg_text += f"</{tag}>\n"
             else:
-                self.svg_texts += "</svg>"
-                self.svg_texts.append(self.svg_text)
+                self.svg_text += "</svg>"
+                self.svg_texts.add(self.svg_text)
                 self.svg_found = 0
 
             
