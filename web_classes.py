@@ -11,16 +11,8 @@ from helpers import *
 # then the main.py will be implemented to reflect this,
 # or maybe just for some of the classes
 
-image_formats = ('.jpg', '.jpeg', '.png', '.gif', '.bmp'
-, '.webp', '.svg', '.tiff', '.eps', '.pdf', '.exif'
-, '.pbm', '.pgm', '.ppm', '.pam', '.pfm', '.hdr', '.fits'
-, '.ico', '.heif', '.bat', '.bpg', '.cgm', '.drw', '.dxf'
-, '.emf', '.gerber', '.itc', '.sgl', '.odg', '.eps', '.raw'
-, '.indd', '.ai', '.eps', '.pdf', '.xps', '.oxps', '.pct', '.pict'
-, '.plt', '.wmf', '.svg', '.svgz', '.cgm', '.xar', '.sxd', '.v2d'
-, '.vnd', '.wmz', '.emz', '.ani', '.cal', '.cin', '.fax', '.jbig'
-, '.jng', '.mng', '.pcx', '.pict', '.pnm', '.ppm', '.qti', '.qtif'
-, '.ras', '.tga', '.wbmp', '.xpm', '.xwd')
+image_formats = ('.jpg', '.jpeg', '.png', '.gif', '.svg', '.bmp, '.webp', '.tiff', '.ico', '.heif', '.heic', '.svgz', '.ani')
+# image_formats = ('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg', '.tiff', '.eps', '.pdf', '.exif', '.pbm', '.pgm', '.ppm', '.pam', '.pfm', '.hdr', '.fits', '.ico', '.heif', '.bat', '.bpg', '.cgm', '.drw', '.dxf', '.emf', '.gerber', '.itc', '.sgl', '.odg', '.eps', '.raw', '.indd', '.ai', '.eps', '.pdf', '.xps', '.oxps', '.pct', '.pict', '.plt', '.wmf', '.svg', '.svgz', '.cgm', '.xar', '.sxd', '.v2d', '.vnd', '.wmz', '.emz', '.ani', '.cal', '.cin', '.fax', '.jbig', '.jng', '.mng', '.pcx', '.pict', '.pnm', '.ppm', '.qti', '.qtif', '.ras', '.tga', '.wbmp', '.xpm', '.xwd')
 
 class ImageFromHTML(HTMLParser):
     # the main class. Uses most others to produce result 
