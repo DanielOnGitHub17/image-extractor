@@ -1,8 +1,9 @@
-#helpers
+# helpers
 from tkinter import *
 from tkinter.ttk import *
 from tkinter.filedialog import askdirectory
 import os
+
 
 class Actions:
     def __init__(self, app):
@@ -14,17 +15,21 @@ class Actions:
         self.frame = Frame(self.app.appframe, padding=(30, 0))
         self.frame.grid()
         column = 0
-        for butn_prop in (("downloader", "Download"), ("reseter", "Reset"), ("exiter", "Exit")):
+        for butn_prop in (
+            ("downloader", "Download"),
+            ("reseter", "Reset"),
+            ("exiter", "Exit"),
+        ):
             butn = Button(self.frame, text=butn_prop[1], width=15, state="disabled")
             butn.grid(row=0, column=column, padx=5, pady=5)
             column += 1
             setattr(self, butn_prop[0], butn)
         self.exiter.state(["!disabled"])
-        #build status box
+        # build status box
         self.status = StringVar(self.frame, "Input a url and click Get Images")
         self.status_display = Label(self.frame, textvariable=self.status)
         self.status_display.grid(row=1, column=0, columnspan=3, sticky="news", pady=5)
-        #build search box
+        # build search box
         self.value = StringVar(self.frame, "https://")
         self.search_box = Entry(self.frame, textvariable=self.value)
         self.search_box.grid(row=2, column=0, columnspan=3, pady=5, sticky="news")
@@ -35,9 +40,9 @@ class Actions:
     def events(self):
         def search(*event):
             self.status.set("Searching...")
-            #disable the getter
+            # disable the getter
             self.getter.state(["disabled"])
-              
+
             self.url = self.value.get()
             try:
                 html = self.app.get_web_text(self.url)
@@ -46,13 +51,15 @@ class Actions:
                 print(error)
                 raise error
                 error = error.msg if hasattr(error, "msg") else "An error occured"
-                self.status.set(error+". click reset button to reset")
+                self.status.set(error + ". click reset button to reset")
                 self.reseter.state(["!disabled"])
                 self.srcs = (set(), set())
                 return
             self.reseter.state(["!disabled"])
             self.downloader.state(["!disabled"])
-            self.status.set("Done with searching. Click the Download button to download images")
+            self.status.set(
+                "Done with searching. Click the Download button to download images"
+            )
 
         def download(*event):
             # self.status.set("Pick a folder")
@@ -61,7 +68,7 @@ class Actions:
             folder = askdirectory()
             if not folder:
                 return reset(1)
-            
+
             current = os.getcwd()
             os.chdir(folder)
             # download images
@@ -69,7 +76,7 @@ class Actions:
                 try:
                     self.app.build_image(self.url, src, folder)
                 except Exception as error:
-                    print(error, src, sep='\n')
+                    print(error, src, sep="\n")
                     self.status.set(f"couldn't download {src}")
             # download svgs
             for svg_text in self.srcs[1]:
@@ -90,8 +97,7 @@ class Actions:
             self.downloader.state(["disabled"])
             self.getter.state(["!disabled"])
             self.reseter.state(["disabled"])
-            
-        
+
         self.getter["command"] = search
         self.downloader["command"] = download
         self.reseter["command"] = reset

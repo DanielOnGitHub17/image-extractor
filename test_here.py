@@ -1,9 +1,6 @@
 import web_classes as w
-import os
 
-from importlib import reload
-#listed in reversed chronological order
-cls = lambda *nothing_really: exec("os.system('clear')")
+
 def parse_css():
     # remember to add 'data' url support
     sample_style = r"""border-radius: fine;
@@ -17,12 +14,12 @@ background: left right center 10% blue url("assets/tellme.jpg");
 """
     # used +1 to indicate if sth is not -1
     urls = set()
-    found_url = sample_style.find("url") # use re later
-    while found_url+1:
-        found_closing_brackets = sample_style.find(')', found_url)
+    found_url = sample_style.find("url")  # use re later
+    while found_url + 1:
+        found_closing_brackets = sample_style.find(")", found_url)
         if found_closing_brackets + 1:
-            #scrape the url out and get the src inside the bracket
-            url = sample_style[found_url:found_closing_brackets].strip("\'\"url( ")
+            # scrape the url out and get the src inside the bracket
+            url = sample_style[found_url:found_closing_brackets].strip("'\"url( ")
             urls.add(url)
         # now find the next one
         found_url = sample_style.find("url", found_closing_brackets)
