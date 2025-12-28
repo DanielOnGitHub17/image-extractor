@@ -3,16 +3,15 @@ import urllib.parse as ps
 import urllib.request as rq
 from pathlib import Path
 
-
 # Todo: Use headers to prevent forbidden requests in future
 
 
-def check_some(base, *possibles):
+def check_some(base: str, *possibles: str) -> bool:
     """This function returns true if any member of possibles is present in base"""
     return any(value in base for value in possibles)
 
 
-def str_attr(attrs):
+def str_attr(attrs: list[tuple[str, str | None]]):
     """Works for html elements with both start and end tags
     Turns the dict to string replace commas by nothing
     replace colons by equals
@@ -20,33 +19,33 @@ def str_attr(attrs):
     return " " + " ".join(f'{name}="{value}"' for name, value in attrs) if attrs else ""
 
 
-def split_url(website, src):
+def split_url(website: str, src: str) -> str:
     # use urllib.parse to query url given
     full_src = ps.urlparse(src)
-    website = ps.urlparse(website)
+    website_rich: ps.ParseResult = ps.urlparse(website)
     if not full_src.netloc:
         src_path = full_src.path
         # turn 'daniel.jpg' to 'danielongithub17.github.io/daniel.jpg'
-        src = f"{website.netloc}{'' if src_path.startswith('/') else '/'}{src_path}"
+        src = f"{website_rich.netloc}{'' if src_path.startswith('/') else '/'}{src_path}"
     if not full_src.scheme:
-        src = f"{website.scheme}://{src}"
+        src = f"{website_rich.scheme}://{src}"
     return src
 
 
-def find_right_name(name, folder):
+def find_right_name(name: str, folder: str) -> str:
     name_hold = Path(name).stem
     extension = Path(name).suffix
     same_name_count = 1
-    folder = os.listdir(folder)
+    files = set(os.listdir(folder))
     # if name already exists, add a digit (like version) to the end of name
-    while name in folder:
+    while name in files:
         name = f"{name_hold}_{same_name_count}{extension}"
         same_name_count += 1
     return name
 
 
-def get_web_text(url, file=0):
-    if file:
+def get_web_text(url: str, is_file: bool=False) -> str:
+    if is_file:
         with open(url, errors="ignore") as html_file:
             return html_file.read().lower()
     else:
