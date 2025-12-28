@@ -1,13 +1,24 @@
 # helpers
-from tkinter import *
-from tkinter.ttk import *
+from typing import Set, Tuple
+
+from tkinter import StringVar, Frame, Label, Entry
+from tkinter.ttk import Button, Frame, Label, Entry
 from tkinter.filedialog import askdirectory
 import os
 
+from main import ImageExtractor
 
+
+# All the self.app stuff, maybe it should be in actions
 class Actions:
-    def __init__(self, app):
+    def __init__(self, app: ImageExtractor):
+        self.url: str
+        self.exiter: Button
+        self.reseter: Button
+        self.downloader: Button
+        self.img_srcs: Tuple[Set[str], Set[str]]
         self.app = app
+
         self.build()
         self.events()
 
@@ -15,6 +26,7 @@ class Actions:
         self.frame = Frame(self.app.appframe, padding=(30, 0))
         self.frame.grid()
         column = 0
+
         for butn_prop in (
             ("downloader", "Download"),
             ("reseter", "Reset"),
@@ -24,7 +36,8 @@ class Actions:
             butn.grid(row=0, column=column, padx=5, pady=5)
             column += 1
             setattr(self, butn_prop[0], butn)
-        self.exiter.state(["!disabled"])
+
+        self.exiter.state(["!disabled"])  # pyright: ignore[reportUnknownMemberType]
         # build status box
         self.status = StringVar(self.frame, "Input a url and click Get Images")
         self.status_display = Label(self.frame, textvariable=self.status)
@@ -38,65 +51,77 @@ class Actions:
         self.getter.grid(row=3, column=0, columnspan=3, pady=5, sticky="news")
 
     def events(self):
-        def search(*event):
+        def search():
             self.status.set("Searching...")
             # disable the getter
-            self.getter.state(["disabled"])
+            self.getter.state(["disabled"])  # pyright: ignore[reportUnknownMemberType]
 
             self.url = self.value.get()
             try:
                 html = self.app.get_web_text(self.url)
-                self.srcs = self.app.get_img_srcs(html, self.url)
+                self.img_srcs = self.app.get_img_srcs(html, self.url)
             except Exception as error:
                 print(error)
                 raise error
                 error = error.msg if hasattr(error, "msg") else "An error occured"
                 self.status.set(error + ". click reset button to reset")
                 self.reseter.state(["!disabled"])
-                self.srcs = (set(), set())
+                self.img_srcs = (set(), set())
                 return
-            self.reseter.state(["!disabled"])
-            self.downloader.state(["!disabled"])
+
+            self.reseter.state(  # pyright: ignore[reportUnknownMemberType]
+                ["!disabled"]
+            )
+            self.downloader.state(  # pyright: ignore[reportUnknownMemberType]
+                ["!disabled"]
+            )
             self.status.set(
                 "Done with searching. Click the Download button to download images"
             )
 
-        def download(*event):
+        def download():
             # self.status.set("Pick a folder")
             self.status.set("Downloading...")
-            self.downloader.state(["disabled"])
+            self.downloader.state(  # pyright: ignore[reportUnknownMemberType]
+                ["disabled"]
+            )
             folder = askdirectory()
             if not folder:
-                return reset(1)
+                return reset()
 
             current = os.getcwd()
             os.chdir(folder)
             # download images
-            for src in self.srcs[0]:
+            src: str
+            for src in self.img_srcs[0]:
                 try:
                     self.app.build_image(self.url, src, folder)
                 except Exception as error:
                     print(error, src, sep="\n")
                     self.status.set(f"couldn't download {src}")
+
             # download svgs
-            for svg_text in self.srcs[1]:
+            for svg_text in self.img_srcs[1]:
                 try:
                     self.app.build_svg(svg_text, folder)
                 except Exception as error:
                     print(error)
-                    self.status.set(f"couldn't download {src}")
-            reset(1)
+                    self.status.set(str(error))
+
+            reset()
             os.startfile(folder)
             os.chdir(current)
 
-        def reset(*event):
-            self.srcs[0].clear()
-            self.srcs[1].clear()
+        def reset():
+            self.img_srcs[0].clear()
+            self.img_srcs[1].clear()
             self.value.set("https://")
             self.status.set("Input a url and click Get Images")
-            self.downloader.state(["disabled"])
-            self.getter.state(["!disabled"])
-            self.reseter.state(["disabled"])
+            self.downloader.state(  # pyright: ignore[reportUnknownMemberType]
+                ["disabled"]
+            )
+            self.getter.state(["!disabled"])  # pyright: ignore[reportUnknownMemberType]
+            self.reseter.state(["disabled"])  # pyright: ignore[reportUnknownMemberType]
 
         self.getter["command"] = search
         self.downloader["command"] = download
