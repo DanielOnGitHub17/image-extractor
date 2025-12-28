@@ -1,7 +1,9 @@
 import urllib.request as rq
 import urllib.parse as parse
+
 from html.parser import HTMLParser
 from pathlib import Path
+from typing import Set, Tuple
 
 from helpers import *
 
@@ -21,22 +23,21 @@ image_formats = {
                 ".mng", ".pcx", ".pict", ".pnm", ".ppm", ".qti", ".qtif", ".ras", ".tga", ".wbmp", ".xpm", ".xwd"
 }
 
-
 class ImageFromHTML(HTMLParser):
     # the main class. Uses most others to produce result
     # that will be returned once to the caller of self.feed
 
-    def __init__(self, url=""):
+    def __init__(self, url: str = ""):
         super().__init__()
         self.url = url
-        self.img_srcs = set()
-        self.css_srcs = set()
-        self.css_texts = set()
-        self.svg_texts = set()
-        self.svg_found = 0
-        self.css_found = 0
+        self.img_srcs: Set[str] = set()
+        self.css_srcs: Set[str] = set()
+        self.css_texts: Set[str] = set()
+        self.svg_texts: Set[str] = set()
+        self.svg_found = False
+        self.css_found = False
 
-    def feed(self, data, url):
+    def feed(self, data: str, url: str) -> Tuple[Set[str], Set[str]]:  # type:ignore
         # parse the html for all types of srcs
         # change later to be only url (it will get the data itself)
         super().feed(data)
@@ -48,61 +49,65 @@ class ImageFromHTML(HTMLParser):
         # get the image srcs from the css_texts
         for css_text in self.css_texts:
             self.img_srcs.update(get_img_from_css.parse_css(url, css_text))
+
         return (self.img_srcs, self.svg_texts)
 
-    def handle_starttag(self, tag, attrs):
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]):
         match tag:
 
             case "img":
-                # print("img")
                 attributes = dict(attrs)
-                if "src" in attributes:
-                    self.img_srcs.add(attributes["src"])
+                src = attributes.get("src")
+                if src is not None:
+                    self.img_srcs.add(src)
 
             case "link":
-                # print("link")
                 attributes = dict(attrs)
                 # check if rel value contains logo/icon/#addmore
-                if "rel" in attributes:
-                    if "href" in attributes:
-                        if check_some(attributes["rel"], "logo", "icon"):
-                            self.img_srcs.add(attributes["href"])
-                        elif attributes["rel"] == "stylesheet":
-                            self.css_srcs.add(attributes["href"])
-                            # do the css parsing for backgrounds later
+                rel = attributes.get("rel")
+                href = attributes.get("href")
+                if rel is not None and href is not None:
+                    if check_some(rel, "logo", "icon"):
+                        self.img_srcs.add(href)
+                    elif attributes["rel"] == "stylesheet":
+                        self.css_srcs.add(href)
+                        # do the css parsing for backgrounds later
             case "svg":
                 # svg found. Start filling in the svg
                 # resetting the past one in the process
-                self.svg_found = 1
+                self.svg_found = True
                 attrs.append(("xmlns", "http://www.w3.org/2000/svg"))
                 self.svg_text = f"<svg{str_attr(attrs)}>"
 
             case "style":
-                self.css_found = 1
+                self.css_found = True
+
+            case _:
+                pass
 
         if self.svg_found and tag != "svg":
             # any other children of the svg, of course.
             self.svg_text += f"<{tag}{str_attr(attrs)}>"
 
-    def handle_data(self, data):
+    def handle_data(self, data: str):
         if self.svg_found:
             self.svg_text += data
         if self.css_found:
             self.css_texts.add(data)
-            self.css_found = 0
+            self.css_found = False
 
-    def handle_endtag(self, tag):
+    def handle_endtag(self, tag: str):
         if self.svg_found:
             if tag != "svg":
                 self.svg_text += f"</{tag}>\n"
             else:
                 self.svg_text += "</svg>"
                 self.svg_texts.add(self.svg_text)
-                self.svg_found = 0
+                self.svg_found = False
 
 
 class ImageGetter:
-    def start(self, website, src, folder):
+    def start(self, website: str, src: str, folder: str):
         self.src = split_url(website, src)
         self.folder = folder
         file_name = Path(parse.urlparse(src).path).name
@@ -119,7 +124,7 @@ class SVGMaker:
     def __init__(self):
         self.name_no = 0
 
-    def start(self, svg_text, folder):
+    def start(self, svg_text: str, folder: str) -> None:
         self.name_no += 1
         self.name = find_right_name(f"svg{self.name_no}.svg", folder)
         self.svg_text = svg_text
@@ -129,14 +134,14 @@ class SVGMaker:
 
 class CSSParser:
     # returns the background images srcs
-    def start(self, website, src):
+    def start(self, website: str, src: str):
         self.website = website
         self.src = split_url(website, src)
         self.css_text = get_web_text(self.src)
         return self.parse_css(self.website, self.css_text)
 
-    def parse_css(self, website, css_text):
-        urls = set()
+    def parse_css(self, website: str, css_text: str) -> Set[str]:
+        urls: Set[str] = set()
         found_url = css_text.find("url")
         while found_url + 1:
             found_closing_brackets = css_text.find(")", found_url)
