@@ -1,10 +1,13 @@
-# Nov 1, 2023 3.50pm
-# helpers
-from tkinter import *
-from tkinter.ttk import *
+""" Nov 1, 2023 3.50pm
+Usage: python main.py <url> <destination_path>
+E.g. python main.py https://github.com/ C:/Users/User/images/
+"""
+
+import sys
+from tkinter import Frame, Tk, NSEW
+from tkinter.ttk import Frame
 
 # classes
-from actions import Actions
 from web_classes import ImageFromHTML, ImageGetter, SVGMaker
 
 # functions
@@ -15,20 +18,17 @@ class ImageExtractor:
     def __init__(self):
         self.app = Tk()
         self.app.title("Image Extractor")
-        self.app.resizable(0, 0)
+        self.app.resizable(width=None, height=None)
         self.build_appframe()
-        self.actions = Actions(self)
         self.style()
         self.get_web_text = get_web_text
         self.get_img_srcs = ImageFromHTML().feed
         self.build_svg = SVGMaker().start
         self.build_image = ImageGetter().start
-        self.app.mainloop()
 
     def build_appframe(self):
         self.appframe = Frame(self.app, padding=(10))
-        self.appframe.grid(column=0, row=0, sticky=(N, W, E, S))
-        self.appframe.app = self
+        self.appframe.grid(column=0, row=0, sticky=NSEW)
         self.appframe.columnconfigure(0, weight=1)
 
     def style(self):
@@ -37,9 +37,20 @@ class ImageExtractor:
         self.app.rowconfigure(0, weight=1)
         self.appframe.columnconfigure(0, weight=1)
 
-    def __getitem__(self, prop):
+    def __getitem__(self, prop: str):
         return getattr(self.app, prop)
 
 
 if __name__ == "__main__":
-    app = ImageExtractor()
+    args = sys.argv
+    if len(args) == 1:
+        # Called without arguments
+        try:
+            from actions import Actions
+            app = ImageExtractor()
+            Actions(app)
+            app.app.mainloop()
+        except KeyboardInterrupt:
+            print("Exitting, thanks for using Image Extractor! ")
+    else:
+        pass
