@@ -115,7 +115,7 @@ class ImageGetter:
 
     def get_img_data(self):
         with rq.urlopen(self.src) as online_img:
-            with open(f"{self.name}", "wb") as local_img:
+            with open(self.name, "wb") as local_img:
                 local_img.write(online_img.read())
 
 
