@@ -49,10 +49,10 @@ def find_right_name(name: str, folder: str) -> str:
 def get_web_text(url: str, is_file: bool = False) -> str:
     if is_file:
         with open(url, errors="ignore") as html_file:
-            return html_file.read().lower()
+            return html_file.read()
     else:
         with rq.urlopen(url) as html_file:
-            return html_file.read().decode(errors="ignore").lower()
+            return html_file.read().decode(errors="ignore")
 
 
 __all__ = ["check_some", "str_attr", "join_url", "find_right_name", "get_web_text"]
