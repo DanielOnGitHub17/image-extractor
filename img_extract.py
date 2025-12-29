@@ -22,7 +22,7 @@ def download_images(
     """Make this track number of successful downloads.
     Like img_srcs: 3, 6 (for 3 out of 6), svg_text: like img_srcs
     """
-    if not all((destination, img_srcs, svg_texts)): return
+    if not all((destination, img_srcs or svg_texts)): return
     cwd = os.getcwd()
     os.chdir(destination)
     # download images
@@ -30,7 +30,7 @@ def download_images(
         try:
             build_image(url, img_src, destination)
         except Exception as error:
-            print(error, img_src, sep="\n")
+            print(f"{img_src}: {error}")
 
     # download svgs
     for svg_text in svg_texts:
