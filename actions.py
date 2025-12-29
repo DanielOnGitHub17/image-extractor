@@ -2,9 +2,9 @@
 from tkinter import StringVar, Frame, Label, Entry
 from tkinter.ttk import Button, Frame, Label, Entry
 from tkinter.filedialog import askdirectory
-import os
 
 from main import ImageExtractor
+from img_extract import download_images, extract_images
 
 
 # All the self.app stuff, maybe it should be in actions
@@ -14,7 +14,7 @@ class Actions:
         self.exiter: Button
         self.reseter: Button
         self.downloader: Button
-        self.img_srcs: tuple[set[str], set[str]]
+        self.sources: dict[str, set[str]]
         self.app = app
 
         self.build()
@@ -37,7 +37,7 @@ class Actions:
 
         self.exiter.state(["!disabled"])
         # build status box
-        self.status = StringVar(self.frame, "Input a url and click Get Images")
+        self.status = StringVar(self.frame, "Input a web or file url and click Get Images")
         self.status_display = Label(self.frame, textvariable=self.status)
         self.status_display.grid(row=1, column=0, columnspan=3, sticky="news", pady=5)
         # build search box
@@ -56,16 +56,11 @@ class Actions:
 
             self.url = self.value.get()
             try:
-                html = self.app.get_web_text(self.url)
-                self.img_srcs = self.app.get_img_srcs(html, self.url)
+                is_file = self.url.startswith(("C:/", '/'))  # Maybe also check https
+                self.sources = extract_images(self.url, is_file)
             except Exception as error:
-                print(error)
+                # Do stuff later, like resetting buttons
                 raise error
-                error = error.msg if hasattr(error, "msg") else "An error occured"
-                self.status.set(error + ". click reset button to reset")
-                self.reseter.state(["!disabled"])
-                self.img_srcs = (set(), set())
-                return
 
             self.reseter.state(
                 ["!disabled"]
@@ -87,32 +82,12 @@ class Actions:
             if not folder:
                 return reset()
 
-            current = os.getcwd()
-            os.chdir(folder)
-            # download images
-            src: str
-            for src in self.img_srcs[0]:
-                try:
-                    self.app.build_image(self.url, src, folder)
-                except Exception as error:
-                    print(error, src, sep="\n")
-                    self.status.set(f"couldn't download {src}")
-
-            # download svgs
-            for svg_text in self.img_srcs[1]:
-                try:
-                    self.app.build_svg(svg_text, folder)
-                except Exception as error:
-                    print(error)
-                    self.status.set(str(error))
-
+            download_images(self.url, folder, **self.sources)
             reset()
-            os.startfile(folder)
-            os.chdir(current)
 
         def reset():
-            self.img_srcs[0].clear()
-            self.img_srcs[1].clear()
+            self.sources["img_srcs"].clear()
+            self.sources["svg_texts"].clear()
             self.value.set("https://")
             self.status.set("Input a url and click Get Images")
             self.downloader.state(
