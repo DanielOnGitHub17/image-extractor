@@ -107,7 +107,7 @@ class ImageFromHTML(HTMLParser):
 
 class ImageGetter:
     def start(self, website: str, src: str, folder: str):
-        self.src = split_url(website, src)
+        self.src = join_url(website, src)
         self.folder = folder
         file_name = Path(parse.urlparse(src).path).name
         self.name = find_right_name(file_name, folder)
@@ -135,7 +135,7 @@ class CSSParser:
     # returns the background images srcs
     def start(self, website: str, src: str):
         self.website = website
-        self.src = split_url(website, src)
+        self.src = join_url(website, src)
         self.css_text = get_web_text(self.src)
         return self.parse_css(self.website, self.css_text)
 
@@ -150,7 +150,7 @@ class CSSParser:
                 # check if it is an image
                 if Path(url).suffix and Path(url).suffix in image_formats:
                     # add the website root to the url
-                    url = split_url(website, url)
+                    url = join_url(website, url)
                     urls.add(url)
             # now find the next one
             found_url = css_text.find("url", found_closing_brackets)
