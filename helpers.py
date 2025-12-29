@@ -19,16 +19,18 @@ def str_attr(attrs: list[tuple[str, str | None]]):
     return " " + " ".join(f'{name}="{value}"' for name, value in attrs) if attrs else ""
 
 
-def split_url(website: str, src: str) -> str:
+def join_url(website: str, src: str) -> str:
     # use urllib.parse to query url given
     full_src = ps.urlparse(src)
     website_rich: ps.ParseResult = ps.urlparse(website)
-    if not full_src.netloc:
-        src_path = full_src.path
-        # turn 'daniel.jpg' to 'danielongithub17.github.io/daniel.jpg'
-        src = f"{website_rich.netloc}{'' if src_path.startswith('/') else '/'}{src_path}"
-    if not full_src.scheme:
-        src = f"{website_rich.scheme}://{src}"
+    src_path = full_src.path
+    if full_src.netloc:
+        scheme = full_src.scheme or website_rich.scheme
+        src = f"{scheme}://{full_src.netloc}{src_path}"
+    else:
+        # turn 'daniel.jpg' to 'https://danielongithub17.github.io/daniel.jpg'
+        scheme = website_rich.scheme or full_src.scheme
+        src = f"{scheme}://{website_rich.netloc}{(not src_path.startswith('/')) * '/'}{src_path}"
     return src
 
 
@@ -44,7 +46,7 @@ def find_right_name(name: str, folder: str) -> str:
     return name
 
 
-def get_web_text(url: str, is_file: bool=False) -> str:
+def get_web_text(url: str, is_file: bool = False) -> str:
     if is_file:
         with open(url, errors="ignore") as html_file:
             return html_file.read().lower()
@@ -53,4 +55,4 @@ def get_web_text(url: str, is_file: bool=False) -> str:
             return html_file.read().decode(errors="ignore").lower()
 
 
-__all__ = ["check_some", "str_attr", "split_url", "find_right_name", "get_web_text"]
+__all__ = ["check_some", "str_attr", "join_url", "find_right_name", "get_web_text"]
