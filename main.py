@@ -10,7 +10,7 @@ class ImageExtractor:
     def __init__(self):
         self.app = Tk()
         self.app.title("Image Extractor")
-        self.app.resizable(width=None, height=None)
+        # self.app.resizable(width=0, height=0)  - looks like I'll need another typeshed PR
         self.build_appframe()
         self.style()
 
