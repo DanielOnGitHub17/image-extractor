@@ -1,17 +1,9 @@
-""" Nov 1, 2023 3.50pm
-Usage: python main.py <url> <destination_path>
-E.g. python main.py https://github.com/ C:/Users/User/images/
+"""First started Nov 1, 2023 3.50pm
 """
 
 import sys
 from tkinter import Frame, Tk, NSEW
 from tkinter.ttk import Frame
-
-# classes
-from web_classes import ImageFromHTML, ImageGetter, SVGMaker
-
-# functions
-from helpers import get_web_text
 
 
 class ImageExtractor:
@@ -21,10 +13,6 @@ class ImageExtractor:
         self.app.resizable(width=None, height=None)
         self.build_appframe()
         self.style()
-        self.get_web_text = get_web_text
-        self.get_img_srcs = ImageFromHTML().feed
-        self.build_svg = SVGMaker().start
-        self.build_image = ImageGetter().start
 
     def build_appframe(self):
         self.appframe = Frame(self.app, padding=(10))
@@ -51,6 +39,8 @@ if __name__ == "__main__":
             Actions(app)
             app.app.mainloop()
         except KeyboardInterrupt:
-            print("Exitting, thanks for using Image Extractor! ")
+            pass
+        finally:
+            print("Exitting, thanks for using Image Extractor!")
     else:
         pass
