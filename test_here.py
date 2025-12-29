@@ -1,8 +1,7 @@
-from typing import Dict, Set, Tuple
 import web_classes as w
 
 
-def parse_css() -> Set[str]:
+def parse_css() -> set[str]:
     # remember to add 'data' url support
     sample_style = r"""border-radius: fine;
     balablu: english'
@@ -14,7 +13,7 @@ background-image: url("tellme.jpg")
 background: left right center 10% blue url("assets/tellme.jpg");
 """
     # used +1 to indicate if sth is not -1
-    urls: Set[str] = set()
+    urls: set[str] = set()
     found_url = sample_style.find("url")  # use re later
     while found_url + 1:
         found_closing_brackets = sample_style.find(")", found_url)
@@ -31,7 +30,9 @@ def test_css_class():
     pass
 
 
-def test_img_classes() -> Dict[str,  Tuple[Set[str], Set[str]] | w.ImageFromHTML | w.ImageGetter]:
+def test_img_classes() -> (
+    dict[str, tuple[set[str], set[str]] | w.ImageFromHTML | w.ImageGetter]
+):
     html = w.get_web_text("https://www.squarespace.com/")
     html_img = w.ImageFromHTML()
     imgs = html_img.feed(html, "https://www.squarespace.com/")

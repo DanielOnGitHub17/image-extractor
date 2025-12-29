@@ -1,6 +1,4 @@
 # helpers
-from typing import Set, Tuple
-
 from tkinter import StringVar, Frame, Label, Entry
 from tkinter.ttk import Button, Frame, Label, Entry
 from tkinter.filedialog import askdirectory
@@ -16,7 +14,7 @@ class Actions:
         self.exiter: Button
         self.reseter: Button
         self.downloader: Button
-        self.img_srcs: Tuple[Set[str], Set[str]]
+        self.img_srcs: tuple[set[str], set[str]]
         self.app = app
 
         self.build()
@@ -37,7 +35,7 @@ class Actions:
             column += 1
             setattr(self, butn_prop[0], butn)
 
-        self.exiter.state(["!disabled"])  # pyright: ignore[reportUnknownMemberType]
+        self.exiter.state(["!disabled"])
         # build status box
         self.status = StringVar(self.frame, "Input a url and click Get Images")
         self.status_display = Label(self.frame, textvariable=self.status)
@@ -54,7 +52,7 @@ class Actions:
         def search():
             self.status.set("Searching...")
             # disable the getter
-            self.getter.state(["disabled"])  # pyright: ignore[reportUnknownMemberType]
+            self.getter.state(["disabled"])
 
             self.url = self.value.get()
             try:
@@ -69,10 +67,10 @@ class Actions:
                 self.img_srcs = (set(), set())
                 return
 
-            self.reseter.state(  # pyright: ignore[reportUnknownMemberType]
+            self.reseter.state(
                 ["!disabled"]
             )
-            self.downloader.state(  # pyright: ignore[reportUnknownMemberType]
+            self.downloader.state(
                 ["!disabled"]
             )
             self.status.set(
@@ -82,7 +80,7 @@ class Actions:
         def download():
             # self.status.set("Pick a folder")
             self.status.set("Downloading...")
-            self.downloader.state(  # pyright: ignore[reportUnknownMemberType]
+            self.downloader.state(
                 ["disabled"]
             )
             folder = askdirectory()
@@ -117,11 +115,11 @@ class Actions:
             self.img_srcs[1].clear()
             self.value.set("https://")
             self.status.set("Input a url and click Get Images")
-            self.downloader.state(  # pyright: ignore[reportUnknownMemberType]
+            self.downloader.state(
                 ["disabled"]
             )
-            self.getter.state(["!disabled"])  # pyright: ignore[reportUnknownMemberType]
-            self.reseter.state(["disabled"])  # pyright: ignore[reportUnknownMemberType]
+            self.getter.state(["!disabled"])
+            self.reseter.state(["disabled"])
 
         self.getter["command"] = search
         self.downloader["command"] = download

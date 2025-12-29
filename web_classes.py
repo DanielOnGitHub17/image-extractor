@@ -3,7 +3,6 @@ import urllib.parse as parse
 
 from html.parser import HTMLParser
 from pathlib import Path
-from typing import Set, Tuple
 
 from helpers import *
 
@@ -30,14 +29,14 @@ class ImageFromHTML(HTMLParser):
     def __init__(self, url: str = ""):
         super().__init__()
         self.url = url
-        self.img_srcs: Set[str] = set()
-        self.css_srcs: Set[str] = set()
-        self.css_texts: Set[str] = set()
-        self.svg_texts: Set[str] = set()
+        self.img_srcs: set[str] = set()
+        self.css_srcs: set[str] = set()
+        self.css_texts: set[str] = set()
+        self.svg_texts: set[str] = set()
         self.svg_found = False
         self.css_found = False
 
-    def feed(self, data: str, url: str) -> Tuple[Set[str], Set[str]]:  # type:ignore
+    def feed(self, data: str, url: str) -> tuple[set[str], set[str]]:  # type:ignore
         # parse the html for all types of srcs
         # change later to be only url (it will get the data itself)
         super().feed(data)
@@ -140,8 +139,8 @@ class CSSParser:
         self.css_text = get_web_text(self.src)
         return self.parse_css(self.website, self.css_text)
 
-    def parse_css(self, website: str, css_text: str) -> Set[str]:
-        urls: Set[str] = set()
+    def parse_css(self, website: str, css_text: str) -> set[str]:
+        urls: set[str] = set()
         found_url = css_text.find("url")
         while found_url + 1:
             found_closing_brackets = css_text.find(")", found_url)
