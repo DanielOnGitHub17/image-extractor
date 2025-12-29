@@ -17,7 +17,7 @@ This Python project extracts images from a website url
 2. Run `python main.py <url> --fp <destination_path> --isfile`
 - Prints the image sources to console
 - `<url>`: The link to html webpage
-- - If `--is_file` is specified, `<url>` maps to a file in the runner's system
+- - If `--isfile` is specified, `<url>` maps to a file in the runner's system
 - `<destination_path>` is the path to store the images
 - - If it is omitted, the images will not be stored
 
@@ -27,4 +27,5 @@ This Python project extracts images from a website url
 - It might appear unresponsive sometimes, but it's probably just in an loop
 - That said, I'll work to make it asynchronous so the UI doesn't freeze
 
+Feel free to create a detailed issue if you find one.
 Enjoy using it.
