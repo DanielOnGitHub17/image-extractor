@@ -1,17 +1,17 @@
 Made By Daniel Enesi.
 
-# Python Web Image Extractor
+## Python Web Image Extractor
 This Python project extracts images from a website url
 - It can access many image formats including SVG.
 - It works using only Python Standard Library modules.
 
-## Usage
+### Usage
 1. Run `python main.py`
 - A tkinter window should pop up providing a textbox.
 - Enter the URL into the textbox and click "Get Images"
 - When it is done, click the download button to download the images
 - Select the folder you want to store the images
-- Wait for the images from the website to download
+- Wait for the images from the website or html file path to download
 - When the images download, the folder is automatically opened for you to view the images.
 
 2. Run `python main.py <url> --fp <destination_path> --isfile`
@@ -21,11 +21,10 @@ This Python project extracts images from a website url
 - `<destination_path>` is the path to store the images
 - - If it is omitted, the images will not be stored
 
-## Notes
-- `--isfile` and `--fp` undergoing development
-
-
-The application might not work for some websites.\
-Also, it might appear unresponsive sometimes, but it's probably just in an OKAY loop
+### Notes
+- `--isfile` and `--fp` undergoing testing and development
+- The application might not work for some websites.
+- It might appear unresponsive sometimes, but it's probably just in an loop
+- That said, I'll work to make it asynchronous so the UI doesn't freeze
 
 Enjoy using it.
