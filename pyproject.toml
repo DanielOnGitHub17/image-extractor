@@ -7,7 +7,7 @@ name = "image-extractor"
 version = "0.1.0"
 description = "Lightweight, dependency-free webpage image scraper"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 authors = [{ name = "Daniel" }]
 license = { text = "MIT" }
 
