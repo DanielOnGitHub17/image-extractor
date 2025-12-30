@@ -1,5 +1,5 @@
-import web_classes as w
-import helpers as h
+from . import helpers as h
+from . import web_classes as w
 
 
 def test_css_class():

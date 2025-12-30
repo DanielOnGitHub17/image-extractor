@@ -3,7 +3,7 @@ from tkinter import StringVar, Frame, Label, Entry
 from tkinter.ttk import Button, Frame, Label, Entry
 from tkinter.filedialog import askdirectory
 
-from main import ImageExtractor
+from .main import ImageExtractor
 from image_extractor import download_images, extract_images
 
 

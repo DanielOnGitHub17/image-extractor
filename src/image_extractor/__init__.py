@@ -2,8 +2,8 @@
 
 import os
 
-from helpers import get_web_text
-from web_classes import ImageFromHTML, ImageGetter, SVGMaker
+from .helpers import get_web_text
+from .web_classes import ImageFromHTML, ImageGetter, SVGMaker
 
 build_image = ImageGetter().start
 build_svg = SVGMaker().start

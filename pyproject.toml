@@ -3,8 +3,8 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "image-extractor"
-version = "0.1.0"
+name = "web-image-extractor"
+version = "0.1.6"
 description = "Lightweight, dependency-free webpage image scraper"
 readme = "README.md"
 requires-python = ">=3.14"
