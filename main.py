@@ -1,9 +1,14 @@
-"""First started Nov 1, 2023 3.50pm
-"""
+"""First started Nov 1, 2023 3.50pm"""
 
+import argparse
+import json
 import sys
+
 from tkinter import Frame, Tk, NSEW
 from tkinter.ttk import Frame
+
+
+from img_extract import download_images, extract_images
 
 
 class ImageExtractor:
@@ -29,9 +34,18 @@ class ImageExtractor:
         return getattr(self.app, prop)
 
 
+parser = argparse.ArgumentParser(
+    prog=ImageExtractor.__name__,
+    description="Extracts images from a webpage or html file url",
+    epilog="Thanks for using!",
+)
+
+parser.add_argument("url", help="The web page or html file resource link")
+parser.add_argument("--fp", help="Path to storage folder on user's system")
+parser.add_argument("--isfile", action="store_true", help="Option to specify a file url instead of web")
+
 if __name__ == "__main__":
-    args = sys.argv
-    if len(args) == 1:
+    if len(sys.argv) == 1:
         # Called without arguments
         try:
             from actions import Actions
@@ -41,6 +55,19 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             pass
         finally:
-            print("Exitting, thanks for using Image Extractor!")
+            print("Exiting, thanks for using Image Extractor!")
     else:
-        pass
+        args = parser.parse_args()
+        print(f"Sourcing images from {args.url}")
+        img_sources = extract_images(args.url, args.isfile)
+        max_len = len(max(img_sources["img_srcs"], key=len))
+        print(
+            f"\nImage urls, SVG texts: {json.dumps({
+                k: [x if len(x) <= max_len else f"{x[:max_len]}..." for x in v] for k, v in img_sources.items()}, indent=4
+                )}"
+        )
+        if args.fp is not None:
+            print(f"\nSaving to {args.fp}")
+            download_images(args.url, args.fp, **img_sources)
+
+        print("\nDone!")
