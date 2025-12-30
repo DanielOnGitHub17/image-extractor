@@ -4,7 +4,7 @@ import urllib.parse as parse
 from html.parser import HTMLParser
 from pathlib import Path
 
-from helpers import *
+from .helpers import *
 
 # Todo: perhaps later, class methods will not just return a value.
 # maybe they should set all gotten values to class properties
