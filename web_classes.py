@@ -22,6 +22,7 @@ image_formats = {
                 ".mng", ".pcx", ".pict", ".pnm", ".ppm", ".qti", ".qtif", ".ras", ".tga", ".wbmp", ".xpm", ".xwd"
 }
 
+
 class ImageFromHTML(HTMLParser):
     # the main class. Uses most others to produce result
     # that will be returned once to the caller of self.feed
@@ -52,16 +53,16 @@ class ImageFromHTML(HTMLParser):
         return (self.img_srcs, self.svg_texts)
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]):
-        match tag:
+        tag = tag.lower()
+        attributes = {k.lower(): v for k, v in attrs}
 
+        match tag:
             case "img":
-                attributes = dict(attrs)
                 src = attributes.get("src")
                 if src is not None:
                     self.img_srcs.add(src)
 
             case "link":
-                attributes = dict(attrs)
                 # check if rel value contains logo/icon/#addmore
                 rel = attributes.get("rel")
                 href = attributes.get("href")
@@ -88,6 +89,11 @@ class ImageFromHTML(HTMLParser):
             # any other children of the svg, of course.
             self.svg_text += f"<{tag}{str_attr(attrs)}>"
 
+        # Add style attribute to css text - the content might contain an image
+        style_attr = attributes.get("style")
+        if style_attr is not None:
+            self.css_texts.add(style_attr)
+
     def handle_data(self, data: str):
         if self.svg_found:
             self.svg_text += data
@@ -96,6 +102,7 @@ class ImageFromHTML(HTMLParser):
             self.css_found = False
 
     def handle_endtag(self, tag: str):
+        tag = tag.lower()
         if self.svg_found:
             if tag != "svg":
                 self.svg_text += f"</{tag}>\n"
