@@ -4,7 +4,7 @@ from tkinter.ttk import Button, Frame, Label, Entry
 from tkinter.filedialog import askdirectory
 
 from main import ImageExtractor
-from img_extract import download_images, extract_images
+from image_extractor import download_images, extract_images
 
 
 # All the self.app stuff, maybe it should be in actions

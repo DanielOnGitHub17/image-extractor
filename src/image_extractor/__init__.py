@@ -1,4 +1,4 @@
-"""Import this for image extraction"""
+"""Use `from image_extractor import <function>` for image extraction"""
 
 import os
 
