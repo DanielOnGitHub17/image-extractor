@@ -35,7 +35,7 @@ class ImageExtractor:
 
 
 parser = argparse.ArgumentParser(
-    prog=ImageExtractor.__name__,
+    prog="python main.py",
     description="Extracts images from a webpage or html file url",
     epilog="Thanks for using!",
 )
