@@ -30,7 +30,7 @@ def download_images(
         try:
             build_image(url, img_src, destination)
         except Exception as error:
-            print(f"{img_src}: {error}")
+            print(f"{img_src} -> {error}")
 
     # download svgs
     for svg_text in svg_texts:
