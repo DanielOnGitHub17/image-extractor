@@ -28,6 +28,7 @@ This Python project extracts images from a website url
 - Use `from image_extractor import download_images, extract_images`
 - `extract_images` will get image sources from a webpage
 - `download_images` will attempt to fetch the contents of the files and save them to your filesystem
+-  `extract_and_download` extracts images and downloads them to your file system. It takes a url and a destination folder
 
 ### Notes
 - To avoid overwriting files already present in your file system, choose an empty folder while using
