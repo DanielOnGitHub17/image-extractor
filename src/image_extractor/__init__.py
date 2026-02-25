@@ -9,6 +9,11 @@ build_image = ImageGetter().start
 build_svg = SVGMaker().start
 
 
+def extract_and_download(url: str, destination: str, is_file: bool = False) -> None:
+    imgs = extract_images(url, is_file)
+    download_images(url, destination, imgs["img_srcs"], imgs["svg_texts"])
+
+
 def extract_images(url: str, is_file: bool = False) -> dict[str, set[str]]:
     html_text = get_web_text(url, is_file=is_file)
     img_srcs, svg_texts = ImageFromHTML(url).feed(html_text, url)
