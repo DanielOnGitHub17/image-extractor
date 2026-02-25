@@ -42,13 +42,16 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument("url", help="The web page or html file resource link")
 parser.add_argument("--fp", help="Path to storage folder on user's system")
-parser.add_argument("--isfile", action="store_true", help="Option to specify a file url instead of web")
+parser.add_argument(
+    "--isfile", action="store_true", help="Option to specify a file url instead of web"
+)
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
         # Called without arguments
         try:
             from .actions import Actions
+
             app = ImageExtractor()
             Actions(app)
             app.app.mainloop()
