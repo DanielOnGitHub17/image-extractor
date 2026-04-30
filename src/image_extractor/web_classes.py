@@ -5,22 +5,12 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 from .helpers import *
+from .consts import image_formats
 
 # Todo: perhaps later, class methods will not just return a value.
 # maybe they should set all gotten values to class properties
 # then the main.py will be implemented to reflect this,
 # or maybe just for some of the classes
-
-# Making it a set will ensure faster searching
-image_formats = {
-    ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".svg",
-      ".tiff", ".eps", ".pdf", ".exif", ".pbm", ".pgm", ".ppm", ".pam",
-        ".pfm", ".hdr", ".fits", ".ico", ".heif", ".bat", ".bpg", ".cgm", ".drw",
-          ".dxf", ".emf", ".gerber", ".itc", ".sgl", ".odg", ".eps", ".raw", ".indd", ".ai",
-            ".eps", ".pdf", ".xps", ".oxps", ".pct", ".pict", ".plt", ".wmf", ".svg", ".svgz", ".cgm",
-              ".xar", ".sxd", ".v2d", ".vnd", ".wmz", ".emz", ".ani", ".cal", ".cin", ".fax", ".jbig", ".jng",
-                ".mng", ".pcx", ".pict", ".pnm", ".ppm", ".qti", ".qtif", ".ras", ".tga", ".wbmp", ".xpm", ".xwd"
-}
 
 
 class ImageFromHTML(HTMLParser):
@@ -37,7 +27,7 @@ class ImageFromHTML(HTMLParser):
         self.svg_found = False
         self.css_found = False
 
-    def feed(self, data: str, url: str) -> tuple[set[str], set[str]]:  # type:ignore
+    def feed(self, data: str, url: str) -> tuple[set[str], set[str]]:  # type: ignore
         # parse the html for all types of srcs
         # change later to be only url (it will get the data itself)
         super().feed(data)

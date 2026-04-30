@@ -64,11 +64,9 @@ if __name__ == "__main__":
         print(f"Sourcing images from {args.url}")
         img_sources = extract_images(args.url, args.isfile)
         max_len = len(max(img_sources["img_srcs"], key=len))
-        print(
-            f"\nImage urls, SVG texts: {json.dumps({
+        print(f"\nImage urls, SVG texts: {json.dumps({
                 k: [x if len(x) <= max_len else f"{x[:max_len]}..." for x in v] for k, v in img_sources.items()}, indent=4
-                )}"
-        )
+                )}")
         if args.fp is not None:
             print(f"\nSaving to {args.fp}")
             download_images(args.url, args.fp, **img_sources)

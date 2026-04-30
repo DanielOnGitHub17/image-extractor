@@ -37,7 +37,9 @@ class Actions:
 
         self.exiter.state(["!disabled"])
         # build status box
-        self.status = StringVar(self.frame, "Input a web or file url and click Get Images")
+        self.status = StringVar(
+            self.frame, "Input a web or file url and click Get Images"
+        )
         self.status_display = Label(self.frame, textvariable=self.status)
         self.status_display.grid(row=1, column=0, columnspan=3, sticky="news", pady=5)
         # build search box
@@ -56,18 +58,14 @@ class Actions:
 
             self.url = self.value.get()
             try:
-                is_file = self.url.startswith(("C:/", '/'))  # Maybe also check https
+                is_file = self.url.startswith(("C:/", "/"))  # Maybe also check https
                 self.sources = extract_images(self.url, is_file)
             except Exception as error:
                 # Do stuff later, like resetting buttons
                 raise error
 
-            self.reseter.state(
-                ["!disabled"]
-            )
-            self.downloader.state(
-                ["!disabled"]
-            )
+            self.reseter.state(["!disabled"])
+            self.downloader.state(["!disabled"])
             self.status.set(
                 "Done with searching. Click the Download button to download images"
             )
@@ -75,9 +73,7 @@ class Actions:
         def download():
             # self.status.set("Pick a folder")
             self.status.set("Downloading...")
-            self.downloader.state(
-                ["disabled"]
-            )
+            self.downloader.state(["disabled"])
             folder = askdirectory()
             if not folder:
                 return reset()
@@ -90,9 +86,7 @@ class Actions:
             self.sources["svg_texts"].clear()
             self.value.set("https://")
             self.status.set("Input a url and click Get Images")
-            self.downloader.state(
-                ["disabled"]
-            )
+            self.downloader.state(["disabled"])
             self.getter.state(["!disabled"])
             self.reseter.state(["disabled"])
 
