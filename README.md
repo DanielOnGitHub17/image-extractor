@@ -7,7 +7,7 @@ This Python project extracts images from a website url
 
 ### Usage
 1. Through the Tkinter UI
-- Run `python main.py`
+- Run `python -m image_extractor.main`
 - A tkinter window should pop up providing a textbox.
 - Enter the URL into the textbox and click "Get Images"
 - When it is done, click the download button to download the images
@@ -16,7 +16,7 @@ This Python project extracts images from a website url
 - When the images download, the folder is automatically opened for you to view the images.
 
 2. Via the command line
-- Run `python main.py <url> --fp <destination_path> --isfile`
+- Run `python -m image_extractor.main <url> --fp <destination_path> --isfile`
 - Prints the image sources to console
 - `<url>`: The link to html webpage
 - - If `--isfile` is specified, `<url>` maps to a file in the runner's system
